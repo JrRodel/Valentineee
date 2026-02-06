@@ -2,7 +2,8 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<title>Will You Be My Valentine? 💖</title>
+<title>Will You Be My Valentine? 💘</title>
+
 <style>
     body {
         margin: 0;
@@ -21,8 +22,8 @@
         background: rgba(255,255,255,0.2);
         padding: 30px;
         border-radius: 20px;
-        width: 320px;
-        animation: fadeIn 0.5s ease;
+        width: 340px;
+        animation: fadeIn 0.4s ease;
     }
 
     .page.active {
@@ -31,7 +32,7 @@
 
     h1 {
         font-size: 24px;
-        margin-bottom: 20px;
+        margin-bottom: 15px;
     }
 
     button {
@@ -40,30 +41,26 @@
         border-radius: 20px;
         font-size: 16px;
         cursor: pointer;
-        margin: 10px;
+        margin: 8px;
         background: #ff4d6d;
         color: white;
         transition: 0.2s;
+        width: 100%;
     }
 
     button:hover {
         transform: scale(1.05);
     }
 
-    .option {
-        display: block;
-        width: 100%;
-    }
-
     #noBtn {
-        position: relative;
-        background: #999;
+        background: gray;
         cursor: not-allowed;
+        position: relative;
     }
 
     img {
         width: 120px;
-        margin-bottom: 15px;
+        margin-bottom: 10px;
     }
 
     @keyframes fadeIn {
@@ -72,62 +69,127 @@
     }
 </style>
 </head>
+
 <body>
 
-<!-- Page 1 -->
+<!-- PAGE 1 -->
 <div class="page active" id="page1">
-    <img src="https://i.imgur.com/1X6R9xR.png" alt="cute">
+    <img src="https://i.imgur.com/1X6R9xR.png">
     <h1>Will you be my Valentine? 💌</h1>
-    <button onclick="nextPage(2)">Yes 💖</button>
+    <button onclick="answers.valentine='Yes'; nextPage(2)">Yes 💖</button>
     <button id="noBtn">No 🙅‍♀️</button>
 </div>
 
-<!-- Page 2 -->
+<!-- PAGE 2 -->
 <div class="page" id="page2">
     <img src="https://i.imgur.com/4AiXzf8.png">
     <h1>What are your cravings? 😋</h1>
-    <button class="option" onclick="nextPage(3)">🍜 Ramen</button>
-    <button class="option" onclick="nextPage(3)">🍗 Fried Chicken</button>
-    <button class="option" onclick="nextPage(3)">🥩 Samgyupsal</button>
-    <button class="option" onclick="nextPage(3)">🥩 Steak</button>
-    <button class="option" onclick="nextPage(3)">🍖 Roasted Chicken</button>
+    <button onclick="answers.cravings='Ramen'; nextPage(3)">🍜 Ramen</button>
+    <button onclick="answers.cravings='Fried Chicken'; nextPage(3)">🍗 Fried Chicken</button>
+    <button onclick="answers.cravings='Samgyupsal'; nextPage(3)">🥩 Samgyupsal</button>
+    <button onclick="answers.cravings='Steak'; nextPage(3)">🥩 Steak</button>
+    <button onclick="answers.cravings='Roasted Chicken'; nextPage(3)">🍖 Roasted Chicken</button>
 </div>
 
-<!-- Page 3 -->
+<!-- PAGE 3 -->
 <div class="page" id="page3">
     <img src="https://i.imgur.com/YQZ7L2y.png">
-    <h1>Dessert time! 🍰</h1>
-    <button class="option" onclick="nextPage(4)">🍨 Ice Cream</button>
-    <button class="option" onclick="nextPage(4)">🧋 Milk Tea</button>
-    <button class="option" onclick="nextPage(4)">😏 Me</button>
+    <h1>Dessert time 🍰</h1>
+    <button onclick="answers.dessert='Ice Cream'; nextPage(4)">🍨 Ice Cream</button>
+    <button onclick="answers.dessert='Milk Tea'; nextPage(4)">🧋 Milk Tea</button>
+    <button onclick="answers.dessert='Me'; nextPage(4)">😏 Me</button>
 </div>
 
-<!-- Page 4 -->
+<!-- PAGE 4 -->
 <div class="page" id="page4">
     <img src="https://i.imgur.com/9QO4b6J.png">
     <h1>What gift do you want? 🎁</h1>
-    <button class="option" onclick="nextPage(5)">💐 Flowers</button>
-    <button class="option" onclick="nextPage(5)">🧸 Plushie</button>
-    <button class="option" onclick="nextPage(5)">💍 Surprise Me</button>
+    <button onclick="answers.gift='Flowers'; submitForm()">💐 Flowers</button>
+    <button onclick="answers.gift='Plushie'; submitForm()">🧸 Plushie</button>
+    <button onclick="answers.gift='Surprise'; submitForm()">💍 Surprise Me</button>
 </div>
 
-<!-- Page 5 -->
+<!-- PAGE 5 -->
 <div class="page" id="page5">
     <img src="https://i.imgur.com/7yUvePI.png">
     <h1>Thank you for being my Valentine 💖</h1>
-    <h2>I love you so much 😘</h2>
+    <div id="summary"></div>
+    <h2>I love you 😘</h2>
 </div>
 
 <script>
-    function nextPage(num) {
-        document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
-        document.getElementById('page' + num).classList.add('active');
+    /* ===============================
+       🔧 GOOGLE FORM CONFIG
+       =============================== */
+
+    const formURL = "https://docs.google.com/forms/d/e/YOUR_FORM_ID/formResponse";
+
+    const ENTRY_CRAVINGS  = "entry.1111111111";
+    const ENTRY_DESSERT   = "entry.2222222222";
+    const ENTRY_GIFT      = "entry.3333333333";
+    const ENTRY_VALENTINE = "entry.4444444444";
+
+    /* ===============================
+       💖 DATA STORAGE
+       =============================== */
+
+    let answers = {
+        valentine: "",
+        cravings: "",
+        dessert: "",
+        gift: ""
+    };
+
+    /* ===============================
+       📤 SUBMIT TO GOOGLE FORM
+       =============================== */
+
+    function submitForm() {
+        const data = new FormData();
+        data.append(ENTRY_CRAVINGS, answers.cravings);
+        data.append(ENTRY_DESSERT, answers.dessert);
+        data.append(ENTRY_GIFT, answers.gift);
+        data.append(ENTRY_VALENTINE, answers.valentine);
+
+        fetch(formURL, {
+            method: "POST",
+            mode: "no-cors",
+            body: data
+        });
+
+        showSummary();
+        nextPage(5);
     }
 
-    const noBtn = document.getElementById('noBtn');
-    noBtn.addEventListener('mouseover', () => {
-        const x = Math.random() * 150 - 75;
-        const y = Math.random() * 150 - 75;
+    /* ===============================
+       📝 SUMMARY
+       =============================== */
+
+    function showSummary() {
+        document.getElementById("summary").innerHTML = `
+            <p>🍜 <b>Craving:</b> ${answers.cravings}</p>
+            <p>🍰 <b>Dessert:</b> ${answers.dessert}</p>
+            <p>🎁 <b>Gift:</b> ${answers.gift}</p>
+        `;
+    }
+
+    /* ===============================
+       🔄 PAGE CONTROL
+       =============================== */
+
+    function nextPage(num) {
+        document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+        document.getElementById("page" + num).classList.add('active');
+    }
+
+    /* ===============================
+       😈 RUNAWAY NO BUTTON
+       =============================== */
+
+    const noBtn = document.getElementById("noBtn");
+    noBtn.addEventListener("mouseover", () => {
+        const x = Math.random() * 160 - 80;
+        const y = Math.random() * 160 - 80;
         noBtn.style.transform = `translate(${x}px, ${y}px)`;
     });
 </script>

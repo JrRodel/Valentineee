@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Will You Be My Valentine? 💖</title>
+<style>
+    body {
+        margin: 0;
+        font-family: 'Comic Sans MS', cursive, sans-serif;
+        background: linear-gradient(135deg, #ff9a9e, #fad0c4);
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+        color: #fff;
+        text-align: center;
+    }
+
+    .page {
+        display: none;
+        background: rgba(255,255,255,0.2);
+        padding: 30px;
+        border-radius: 20px;
+        width: 320px;
+        animation: fadeIn 0.5s ease;
+    }
+
+    .page.active {
+        display: block;
+    }
+
+    h1 {
+        font-size: 24px;
+        margin-bottom: 20px;
+    }
+
+    button {
+        padding: 12px 20px;
+        border: none;
+        border-radius: 20px;
+        font-size: 16px;
+        cursor: pointer;
+        margin: 10px;
+        background: #ff4d6d;
+        color: white;
+        transition: 0.2s;
+    }
+
+    button:hover {
+        transform: scale(1.05);
+    }
+
+    .option {
+        display: block;
+        width: 100%;
+    }
+
+    #noBtn {
+        position: relative;
+        background: #999;
+        cursor: not-allowed;
+    }
+
+    img {
+        width: 120px;
+        margin-bottom: 15px;
+    }
+
+    @keyframes fadeIn {
+        from { opacity: 0; transform: scale(0.95); }
+        to { opacity: 1; transform: scale(1); }
+    }
+</style>
+</head>
+<body>
+
+<!-- Page 1 -->
+<div class="page active" id="page1">
+    <img src="https://i.imgur.com/1X6R9xR.png" alt="cute">
+    <h1>Will you be my Valentine? 💌</h1>
+    <button onclick="nextPage(2)">Yes 💖</button>
+    <button id="noBtn">No 🙅‍♀️</button>
+</div>
+
+<!-- Page 2 -->
+<div class="page" id="page2">
+    <img src="https://i.imgur.com/4AiXzf8.png">
+    <h1>What are your cravings? 😋</h1>
+    <button class="option" onclick="nextPage(3)">🍜 Ramen</button>
+    <button class="option" onclick="nextPage(3)">🍗 Fried Chicken</button>
+    <button class="option" onclick="nextPage(3)">🥩 Samgyupsal</button>
+    <button class="option" onclick="nextPage(3)">🥩 Steak</button>
+    <button class="option" onclick="nextPage(3)">🍖 Roasted Chicken</button>
+</div>
+
+<!-- Page 3 -->
+<div class="page" id="page3">
+    <img src="https://i.imgur.com/YQZ7L2y.png">
+    <h1>Dessert time! 🍰</h1>
+    <button class="option" onclick="nextPage(4)">🍨 Ice Cream</button>
+    <button class="option" onclick="nextPage(4)">🧋 Milk Tea</button>
+    <button class="option" onclick="nextPage(4)">😏 Me</button>
+</div>
+
+<!-- Page 4 -->
+<div class="page" id="page4">
+    <img src="https://i.imgur.com/9QO4b6J.png">
+    <h1>What gift do you want? 🎁</h1>
+    <button class="option" onclick="nextPage(5)">💐 Flowers</button>
+    <button class="option" onclick="nextPage(5)">🧸 Plushie</button>
+    <button class="option" onclick="nextPage(5)">💍 Surprise Me</button>
+</div>
+
+<!-- Page 5 -->
+<div class="page" id="page5">
+    <img src="https://i.imgur.com/7yUvePI.png">
+    <h1>Thank you for being my Valentine 💖</h1>
+    <h2>I love you so much 😘</h2>
+</div>
+
+<script>
+    function nextPage(num) {
+        document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+        document.getElementById('page' + num).classList.add('active');
+    }
+
+    const noBtn = document.getElementById('noBtn');
+    noBtn.addEventListener('mouseover', () => {
+        const x = Math.random() * 150 - 75;
+        const y = Math.random() * 150 - 75;
+        noBtn.style.transform = `translate(${x}px, ${y}px)`;
+    });
+</script>
+
+</body>
+</html>
